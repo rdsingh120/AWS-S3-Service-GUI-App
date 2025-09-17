@@ -9,17 +9,18 @@ namespace AWSS3Service
             InitializeComponent();
         }
 
-        private void btnBucketOps_Click(object sender, RoutedEventArgs e)
+        private void BucketOpsButton_Click(object sender, RoutedEventArgs e)
+        {
+            BucketLevelOperations bucketLevelOperations = new BucketLevelOperations();
+            bucketLevelOperations.ShowDialog();
+        }
+
+        private void ObjectOpsButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void btnObjectOps_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }

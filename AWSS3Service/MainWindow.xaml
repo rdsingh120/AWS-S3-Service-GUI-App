@@ -17,9 +17,9 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Name="btnBucketOps" Content="Bucket Level Operations" Width="200" Height="50" Click="btnBucketOps_Click"/>
-            <Button Grid.Column="1" Name="btnObjectOps" Content="Object Level Operations" Width="200" Height="50" Click="btnObjectOps_Click"/>
-            <Button Grid.Column="2" Name="btnExit" Content="Exit" Width="200" Height="50" Click="btnExit_Click"/>
+            <Button Grid.Column="0" Name="BucketOpsButton" Content="Bucket Level Operations" Width="200" Height="50" Click="BucketOpsButton_Click"/>
+            <Button Grid.Column="1" Name="ObjectOpsButton" Content="Object Level Operations" Width="200" Height="50" Click="ObjectOpsButton_Click"/>
+            <Button Grid.Column="2" Name="ExitButton" Content="Exit" Width="200" Height="50" Click="ExitButton_Click"/>
         </Grid>
         <Label Grid.Row="1" Content="Ripudaman Singh"/>
     </Grid>
