@@ -1,7 +1,7 @@
 ﻿using Amazon;
 using Amazon.S3;
 
-namespace AWSS3Service.Service
+namespace AWSS3Service.Services
 {
     internal class S3ClientProvider
     {
