@@ -28,8 +28,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Name="DeleteBucketButton" Content="Delete Bucket" FontSize="18" Height="40" Width="200" HorizontalAlignment="Right" Margin="0 0 0 5"/>
-            <DataGrid Grid.Row="1" Name="BucketsDataGrid" AutoGenerateColumns="False">
+            <Button Grid.Row="0" Name="DeleteBucketButton" Content="Delete Bucket" FontSize="18" Height="40" Width="200" HorizontalAlignment="Right" Margin="0 0 0 5" Click="DeleteBucketButton_Click"/>
+            <DataGrid Grid.Row="1" Name="BucketsDataGrid" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="FontSize" Value="18"/>

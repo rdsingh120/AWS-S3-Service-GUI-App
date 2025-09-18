@@ -16,6 +16,17 @@ namespace AWSS3Service
             this.Close();
         }
 
+        private async Task LoadBuckets()
+        {
+            var buckets = await BucketOperations.GetBucketList();
+            BucketsDataGrid.ItemsSource = buckets;
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadBuckets();
+        }
+
         private async void CreateBucketButton_Click(object sender, RoutedEventArgs e)
         {
             string bucketName = BucketNameTextBox.Text;
@@ -30,6 +41,7 @@ namespace AWSS3Service
                 {
                     await BucketOperations.CreateBucket(bucketName);
                     MessageBox.Show($"Bucket {bucketName} created successfully.");
+                    await LoadBuckets();
                 }
                 catch( Exception ex )
                 {
@@ -40,10 +52,27 @@ namespace AWSS3Service
             }
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        
+
+        private async void DeleteBucketButton_Click(object sender, RoutedEventArgs e)
         {
-            var buckets = await BucketOperations.GetBucketList();
-            BucketsDataGrid.ItemsSource = buckets;
+            if (BucketsDataGrid.SelectedItem is Amazon.S3.Model.S3Bucket selectedBucket)
+            {
+                try
+                {
+                    await BucketOperations.DeleteBucket(selectedBucket.BucketName);
+                    MessageBox.Show($"Bucket {selectedBucket.BucketName} deleted.");
+                    await LoadBuckets();
+                }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show($"Error deleting bucket: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a bucket first.");
+            }
         }
     }
 }
