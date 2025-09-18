@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AWSS3Service"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="Bucket Level Operations" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +29,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Name="DeleteBucketButton" Content="Delete Bucket" FontSize="18" Height="40" Width="200" HorizontalAlignment="Right" Margin="0 0 0 5"/>
-            <DataGrid Grid.Row="1" Name="BucketsDataGrid">
+            <DataGrid Grid.Row="1" Name="BucketsDataGrid" AutoGenerateColumns="False">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="FontSize" Value="18"/>
@@ -36,8 +37,22 @@
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Bucket Name" Width="*"/>
-                    <DataGridTextColumn Header="Date Created" Width="*"/>
+                    <DataGridTextColumn Header="Bucket Name" Binding="{Binding BucketName}"  Width="*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Padding" Value="15,0,0,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Date Created" Binding="{Binding CreationDate}" Width="*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

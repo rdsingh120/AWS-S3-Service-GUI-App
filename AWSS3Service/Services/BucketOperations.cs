@@ -4,7 +4,7 @@ namespace AWSS3Service.Services
 {
     internal class BucketOperations
     {
-        public async Task CreateBucket(string bucketName)
+        public static async Task CreateBucket(string bucketName)
         {
             var putBucketRequest = new PutBucketRequest 
             { 
@@ -13,6 +13,12 @@ namespace AWSS3Service.Services
             };
 
             await S3ClientProvider.s3Client.PutBucketAsync(putBucketRequest);
+        }
+
+        public static async Task<List<S3Bucket>> GetBucketList()
+        {
+            ListBucketsResponse response = await S3ClientProvider.s3Client.ListBucketsAsync();
+            return response.Buckets;
         }
     }
 }

@@ -6,11 +6,9 @@ namespace AWSS3Service
 {
     public partial class BucketLevelOperations : Window
     {
-        BucketOperations bucketOperations;
         public BucketLevelOperations()
         {
             InitializeComponent();
-            this.bucketOperations = new BucketOperations();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -30,7 +28,7 @@ namespace AWSS3Service
             {
                 try
                 {
-                    await bucketOperations.CreateBucket(bucketName);
+                    await BucketOperations.CreateBucket(bucketName);
                     MessageBox.Show($"Bucket {bucketName} created successfully.");
                 }
                 catch( Exception ex )
@@ -40,6 +38,12 @@ namespace AWSS3Service
 
                 BucketNameTextBox.Text = string.Empty;
             }
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var buckets = await BucketOperations.GetBucketList();
+            BucketsDataGrid.ItemsSource = buckets;
         }
     }
 }
