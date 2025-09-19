@@ -30,5 +30,16 @@ namespace AWSS3Service.Services
             using var transferUtility = new TransferUtility(S3ClientProvider.s3Client);
             await transferUtility.DownloadAsync(downloadRequest);
         }
+
+        public static async Task DeleteFile(string bucketName, string fileName)
+        {
+            var deleteObjectRequest = new DeleteObjectRequest
+            {
+                BucketName = bucketName,
+                Key = fileName
+            };
+
+            await S3ClientProvider.s3Client.DeleteObjectAsync(deleteObjectRequest);
+        }
     }
 }

@@ -52,8 +52,6 @@ namespace AWSS3Service
             }
         }
 
-        
-
         private async void DeleteBucketButton_Click(object sender, RoutedEventArgs e)
         {
             if (BucketsDataGrid.SelectedItem is Amazon.S3.Model.S3Bucket selectedBucket)

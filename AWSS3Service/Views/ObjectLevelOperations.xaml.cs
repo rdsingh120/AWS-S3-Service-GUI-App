@@ -22,6 +22,13 @@ namespace AWSS3Service
             BucketComboBox.ItemsSource = buckets;
         }
 
+        private async Task LoadFiles(Amazon.S3.Model.S3Bucket bucket)
+        {
+            if (bucket == null) return;
+            var objects = await ObjectOperations.GetObjectList(bucket.BucketName);
+            ObjectDataGrid.ItemsSource = objects;
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e) 
         {
             await LoadBuckets();
@@ -31,8 +38,7 @@ namespace AWSS3Service
         {
             if(BucketComboBox.SelectedItem is Amazon.S3.Model.S3Bucket bucket)
             {
-                var objects = await ObjectOperations.GetObjectList(bucket.BucketName);
-                ObjectDataGrid.ItemsSource = objects;
+                await LoadFiles(bucket);
             }
         }
 
@@ -73,6 +79,32 @@ namespace AWSS3Service
                 {
                     MessageBox.Show($"Download failed: {ex.Message}");
                 }
+            }
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (BucketComboBox.SelectedItem is not Amazon.S3.Model.S3Bucket selectedBucket)
+            {
+                MessageBox.Show("Please select the bucket first");
+                return;
+            }
+
+            if (ObjectDataGrid.SelectedItem is not Amazon.S3.Model.S3Object selectedObject)
+            {
+                MessageBox.Show("Please select the file first");
+                return;
+            }
+            
+            try
+            {
+                await ObjectOperations.DeleteFile(selectedBucket.BucketName, selectedObject.Key);
+                MessageBox.Show("File deleted successfully");
+                await LoadFiles(selectedBucket);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Deletion failed {ex.Message}");
             }
         }
     }
