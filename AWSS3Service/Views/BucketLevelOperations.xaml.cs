@@ -1,5 +1,4 @@
 ﻿using AWSS3Service.Services;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AWSS3Service
@@ -9,6 +8,7 @@ namespace AWSS3Service
         public BucketLevelOperations()
         {
             InitializeComponent();
+            CreateBucketSectionControl.BucketCreated += LoadBuckets;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -25,31 +25,6 @@ namespace AWSS3Service
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadBuckets();
-        }
-
-        private async void CreateBucketButton_Click(object sender, RoutedEventArgs e)
-        {
-            string bucketName = BucketNameTextBox.Text;
-
-            if (string.IsNullOrWhiteSpace(bucketName)) 
-            {
-                MessageBox.Show("Please enter the bucket name");
-            }
-            else
-            {
-                try
-                {
-                    await BucketOperations.CreateBucket(bucketName);
-                    MessageBox.Show($"Bucket {bucketName} created successfully.");
-                    await LoadBuckets();
-                }
-                catch( Exception ex )
-                {
-                    MessageBox.Show($"Error creating bucket: {ex.Message}");
-                }
-
-                BucketNameTextBox.Text = string.Empty;
-            }
         }
 
         private async void DeleteBucketButton_Click(object sender, RoutedEventArgs e)
