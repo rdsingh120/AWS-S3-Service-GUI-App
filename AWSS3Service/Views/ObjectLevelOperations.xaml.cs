@@ -1,11 +1,13 @@
-﻿using AWSS3Service.Services;
-using System.Threading.Tasks;
+﻿using AWSS3Service.Models;
+using AWSS3Service.Services;
+using Microsoft.Win32;
 using System.Windows;
 
 namespace AWSS3Service
 {
     public partial class ObjectLevelOperations : Window
     {
+        UploadFile file;
         public ObjectLevelOperations()
         {
             InitializeComponent();
@@ -105,6 +107,54 @@ namespace AWSS3Service
             catch (Exception ex)
             {
                 MessageBox.Show($"Deletion failed {ex.Message}");
+            }
+        }
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            bool? success = fileDialog.ShowDialog();
+
+            if (success == true) 
+            {
+                string path = fileDialog.FileName;
+                string fileName = fileDialog.SafeFileName;
+                
+                file = new UploadFile
+                {
+                    FileName = fileName,
+                    Path = path
+                };
+                
+                ObjectTextBlock.Text = fileName;
+            }
+
+
+        }
+
+        private async void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (BucketComboBox.SelectedItem is not Amazon.S3.Model.S3Bucket selectedBucket)
+            {
+                MessageBox.Show("Please select the bucket first");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ObjectTextBlock.Text))
+            {
+                MessageBox.Show("Please browse and select a file");
+                return;
+            }
+            try
+            {
+                await ObjectOperations.UploadFile(file.Path, selectedBucket.BucketName, file.FileName);
+                MessageBox.Show("File upload successful");
+                ObjectTextBlock.Text = string.Empty;
+                await LoadFiles(selectedBucket);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"File upload failed: {ex.Message}");
             }
         }
     }
