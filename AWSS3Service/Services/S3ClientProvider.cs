@@ -14,8 +14,12 @@ namespace AWSS3Service.Services
 
         private static IAmazonS3? GetS3Client()
         {
-            string awsAccessKey = "";
-            string awsSecretKey = "";
+            string? awsAccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+            string? awsSecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"); 
+
+            if(string.IsNullOrEmpty(awsSecretKey) || string.IsNullOrEmpty(awsAccessKey)) {
+                throw new InvalidOperationException("AWS credentials not found");
+            }
             return new AmazonS3Client(awsAccessKey, awsSecretKey, RegionEndpoint.USEast1);
         }
     }
