@@ -54,7 +54,13 @@ namespace AWSS3Service
 
         private async void DeleteBucketButton_Click(object sender, RoutedEventArgs e)
         {
-            if (BucketsDataGrid.SelectedItem is Amazon.S3.Model.S3Bucket selectedBucket)
+            if (BucketsDataGrid.SelectedItem is not Amazon.S3.Model.S3Bucket selectedBucket)
+            {
+                MessageBox.Show("Please select a bucket first.");
+                return;
+            }
+
+            if(await BucketOperations.IsBucketEmpty(selectedBucket.BucketName))
             {
                 try
                 {
@@ -62,14 +68,23 @@ namespace AWSS3Service
                     MessageBox.Show($"Bucket {selectedBucket.BucketName} deleted.");
                     await LoadBuckets();
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     MessageBox.Show($"Error deleting bucket: {ex.Message}");
                 }
             }
             else
             {
-                MessageBox.Show("Please select a bucket first.");
+                MessageBoxResult result = MessageBox.Show(
+                    "Bucket is not empty, still want to delete it?",
+                    $"{selectedBucket.BucketName} contains files",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes) 
+                {
+                    MessageBox.Show("Worked");
+                }
             }
         }
     }
