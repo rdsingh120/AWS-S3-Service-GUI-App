@@ -83,7 +83,14 @@ namespace AWSS3Service
 
                 if (result == MessageBoxResult.Yes) 
                 {
-                    MessageBox.Show("Worked");
+                    bool isAllFilesDeleted = await BucketOperations.DeleteAllFiles(selectedBucket.BucketName);
+
+                    if (isAllFilesDeleted)
+                    {
+                        await BucketOperations.DeleteBucket(selectedBucket.BucketName);
+                        MessageBox.Show($"Bucket {selectedBucket.BucketName} deleted.");
+                        await LoadBuckets();
+                    }
                 }
             }
         }
