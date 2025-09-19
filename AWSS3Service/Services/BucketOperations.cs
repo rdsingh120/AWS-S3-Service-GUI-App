@@ -25,5 +25,17 @@ namespace AWSS3Service.Services
             ListBucketsResponse response = await S3ClientProvider.s3Client.ListBucketsAsync();
             return response.Buckets;
         }
+
+        public static async Task<bool> IsBucketEmpty(string bucketName)
+        {
+            var request = new ListObjectsV2Request 
+            { 
+                BucketName = bucketName,
+                MaxKeys = 1
+            };
+
+            var response = await S3ClientProvider.s3Client.ListObjectsV2Async(request);
+            return response.KeyCount == 0;
+        }
     }
 }
