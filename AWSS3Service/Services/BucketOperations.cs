@@ -2,7 +2,7 @@
 
 namespace AWSS3Service.Services
 {
-    internal class BucketOperations
+    public static class BucketOperations
     {
         public static async Task CreateBucket(string bucketName)
         {
