@@ -36,9 +36,44 @@ namespace AWSS3Service
             }
         }
 
-        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
+            if (BucketComboBox.SelectedItem is not Amazon.S3.Model.S3Bucket selectedBucket)
+            {
+                MessageBox.Show("Please select the bucket first");
+                return;
+            }
 
+            if (ObjectDataGrid.SelectedItem is not Amazon.S3.Model.S3Object selectedObject)
+            {
+                MessageBox.Show("Please select the file first");
+                return;
+            }
+
+            String fileName = selectedObject.Key;
+
+            var saveAsDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = fileName,
+                DefaultExt = System.IO.Path.GetExtension(fileName),
+                Filter = "All files (*.*)|*.*"
+            };
+
+            bool? result = saveAsDialog.ShowDialog();
+
+            if (result == true)
+            {
+                try
+                {
+                    await ObjectOperations.DownloadFile(selectedBucket.BucketName, fileName, saveAsDialog.FileName);
+                    MessageBox.Show("File download successful");
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Download failed: {ex.Message}");
+                }
+            }
         }
     }
 }

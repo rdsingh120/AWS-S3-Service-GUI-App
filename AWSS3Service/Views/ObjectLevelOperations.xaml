@@ -74,7 +74,7 @@
             </Grid.RowDefinitions>
             <Button Grid.Row="1" Name="BrowseButton" Content="Browse" FontSize="18" Height="40" Width="200"/>
             <Button Grid.Row="2" Name="UploadButton" Content="Upload" FontSize="18" Height="40" Width="200"/>
-            <Button Grid.Row="3" Name="DownloadButton" Content="Download" FontSize="18" Height="40" Width="200"/>
+            <Button Grid.Row="3" Name="DownloadButton" Content="Download" FontSize="18" Height="40" Width="200" Click="DownloadButton_Click"/>
             <Button Grid.Row="4" Name="DeleteButton" Content="Delete" FontSize="18" Height="40" Width="200"/>
             <Button Grid.Row="5" Name="BackButton" Content="Back to Main Window" FontSize="18" Height="40" Width="200" Click="BackButton_Click"/>
         </Grid>
